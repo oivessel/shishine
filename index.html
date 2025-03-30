@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>shishinedianshi</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #333, #000);
+            font-family: 'Roboto', sans-serif;
+            color: white;
+            overflow: hidden;
+        }
+        .top-menu {
+            position: fixed;
+            top: 10px;
+            left: 20px;
+            display: flex;
+            gap: 15px;
+            font-size: 1.1em;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 5px;
+        }
+        .top-menu a {
+            color: white;
+            text-decoration: none;
+            font-family: 'Montserrat', sans-serif;
+            transition: color 0.3s;
+        }
+        .top-menu a:hover {
+            color: #ccc;
+        }
+        .top-menu span {
+            color: #ccc;
+        }
+        .logo {
+            font-size: 5em;
+            font-weight: 900;
+            font-family: 'Orbitron', sans-serif;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            opacity: 0;
+            animation: fadeIn 2s ease-in forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .carousel {
+            margin-top: 20px;
+            font-size: 1.3em;
+            height: 30px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            font-family: 'Roboto', sans-serif;
+            font-weight: 300;
+        }
+        .carousel div {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            left: 0;
+            animation: slide 9s infinite;
+        }
+        .carousel div:nth-child(1) { animation-delay: 0s; }
+        .carousel div:nth-child(2) { animation-delay: 3s; }
+        .carousel div:nth-child(3) { animation-delay: 6s; }
+        @keyframes slide {
+            0% { opacity: 0; transform: translateY(30px); }
+            10% { opacity: 1; transform: translateY(0); }
+            33% { opacity: 1; transform: translateY(0); }
+            43% { opacity: 0; transform: translateY(-30px); }
+            100% { opacity: 0; transform: translateY(-30px); }
+        }
+        .buttons {
+            position: fixed;
+            bottom: 80px;
+            display: flex;
+            gap: 30px;
+        }
+        .button {
+            padding: 15px 40px;
+            background-color: #555;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 1.2em;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
+        .button:hover {
+            background-color: #777;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7);
+        }
+        .image-carousel-left, .image-carousel-right {
+            position: fixed;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 250px;
+            height: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .image-carousel-left {
+            left: 20px;
+        }
+        .image-carousel-right {
+            right: 20px;
+        }
+        .image-box {
+            width: 100%;
+            height: 200px;
+            border-radius: 15px;
+            animation: imageSlide 12s infinite ease-in-out; /* Adicionado ease-in-out para suavizar */
+            background-size: cover;
+            background-position: center;
+            background-color: rgba(255, 255, 255, 0.1); /* Fallback caso a imagem não carregue */
+            transition: opacity 0.5s ease-in-out; /* Adiciona transição suave para opacidade */
+        }
+        .image-carousel-left .image-box:nth-child(1) { animation-delay: 0s; }
+        .image-carousel-left .image-box:nth-child(2) { animation-delay: 4s; }
+        .image-carousel-right .image-box:nth-child(1) { animation-delay: 8s; }
+        .image-carousel-right .image-box:nth-child(2) { animation-delay: 4s; } /* Adicionado delay para o segundo box */
+        @keyframes imageSlide {
+            0% { opacity: 0; transform: translateX(30px); } /* Reduzido o deslocamento para suavizar */
+            10% { opacity: 1; transform: translateX(0); }
+            40% { opacity: 1; transform: translateX(0); } /* Aumentado o tempo de visibilidade */
+            50% { opacity: 0; transform: translateX(-30px); }
+            100% { opacity: 0; transform: translateX(-30px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="top-menu">
+        <a href="#sobre">Sobre</a>
+        <span>|</span>
+        <a href="#historia">História</a>
+        <span>|</span>
+        <a href="#filosofia">Filosofia</a>
+    </div>
+    <div class="logo">shineTV</div>
+    <div class="carousel">
+        <div>TV em 4K como você nunca viu</div>
+        <div>Entretenimento sem limites</div>
+        <div>O futuro da televisão está aqui</div>
+    </div>
+    <div class="buttons">
+        <a href="#player" class="button">Ir ao Player</a>
+        <a href="#catalogo" class="button">Ver Catálogo</a>
+    </div>
+    <div class="image-carousel-left">
+        <div class="image-box" id="left-image-1"></div>
+        <div class="image-box" id="left-image-2"></div>
+    </div>
+    <div class="image-carousel-right">
+        <div class="image-box" id="right-image-1"></div>
+        <div class="image-box" id="right-image-2"></div>
+    </div>
+
+    <script>
+        // Lista de imagens (aliases) para os carrosséis
+        const imageAliasesLeft1 = [
+            'images/a.png',
+            'images/ab.png',
+            'images/abc.jpg'
+        ];
+        const imageAliasesLeft2 = [
+            'images/abcd.png',
+            'images/abcde.png',
+            'images/abcdef.png'
+        ];
+        const imageAliasesRight1 = [
+            'images/abcdefg.png',
+            'images/abcdefgh.png',
+            'images/abcdefghi.png'
+        ];
+        const imageAliasesRight2 = [
+            'images/abcdefghij.png',
+            'images/abcdefghijk.png',
+            'images/abcdefghijkl.png'
+        ];
+
+        // Função para atualizar as imagens
+        let indexLeft1 = 0;
+        let indexLeft2 = 0;
+        let indexRight1 = 0;
+        let indexRight2 = 0;
+
+        function updateImages() {
+            // Atualiza a primeira imagem do carrossel esquerdo
+            const leftImage1 = document.getElementById('left-image-1');
+            leftImage1.style.opacity = 0; // Força o fade-out antes de trocar
+            setTimeout(() => {
+                leftImage1.style.backgroundImage = `url('${imageAliasesLeft1[indexLeft1]}')`;
+                leftImage1.style.opacity = 1; // Fade-in após a troca
+            }, 500); // Sincroniza com a transição de opacidade
+            indexLeft1 = (indexLeft1 + 1) % imageAliasesLeft1.length;
+
+            // Atualiza a segunda imagem do carrossel esquerdo
+            const leftImage2 = document.getElementById('left-image-2');
+            leftImage2.style.opacity = 0;
+            setTimeout(() => {
+                leftImage2.style.backgroundImage = `url('${imageAliasesLeft2[indexLeft2]}')`;
+                leftImage2.style.opacity = 1;
+            }, 500);
+            indexLeft2 = (indexLeft2 + 1) % imageAliasesLeft2.length;
+
+            // Atualiza a primeira imagem do carrossel direito
+            const rightImage1 = document.getElementById('right-image-1');
+            rightImage1.style.opacity = 0;
+            setTimeout(() => {
+                rightImage1.style.backgroundImage = `url('${imageAliasesRight1[indexRight1]}')`;
+                rightImage1.style.opacity = 1;
+            }, 500);
+            indexRight1 = (indexRight1 + 1) % imageAliasesRight1.length;
+
+            // Atualiza a segunda imagem do carrossel direito
+            const rightImage2 = document.getElementById('right-image-2');
+            rightImage2.style.opacity = 0;
+            setTimeout(() => {
+                rightImage2.style.backgroundImage = `url('${imageAliasesRight2[indexRight2]}')`;
+                rightImage2.style.opacity = 1;
+            }, 500);
+            indexRight2 = (indexRight2 + 1) % imageAliasesRight2.length;
+        }
+
+        // Chama a função inicialmente e depois a cada 6 segundos
+        updateImages();
+        setInterval(updateImages, 6000); // Aumentado para sincronizar com a nova animação
+    </script>
+</body>
+</html>
